@@ -1,0 +1,15 @@
+{% extends "alexwebsite/base.html" %}
+{% load staticfiles %}
+
+{% block title %}CV{% endblock %}
+
+{% block main %}
+
+<div class="centre-list">
+<ul>
+	<li><a href="{% static 'pages/alexmckenzie-cv.pdf' %}">View PDF</a></li>
+	<li><a href="alexmckenzie-cv.html">View HTML</a></li>
+</ul>
+</div>
+
+{% endblock %}
