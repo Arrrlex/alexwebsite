@@ -1,6 +1,6 @@
 # alexwebsite
 
-This is my personal website, featuring my CV and a burgeoning portfolio of programming work.
+This is my personal website, featuring my CV and a (small, as yet) portfolio of programming work.
 
 ##Things left to do:
 
