@@ -1,0 +1,9 @@
+1. 	Use generic views, especially in projects
+
+2. 	Make website prettier - bootstrap, proper theme. Split up some CSS into apps. Perhaps "static" folder could live in "pages" app? Then we could get rid of horrible absolute path to its folder in settings.py
+
+3.	Use a whole bunch of javascript (and AJAX?) in the projects app, so that everything can load in just one page. 
+
+4.	Add a base-projects.html template
+
+5.	Add a visual aid for site location

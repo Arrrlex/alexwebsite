@@ -7,9 +7,11 @@
 <div class="main-text">
 <p> Here you can find simple interfaces for a series of python scripts I wrote as solutions to Karan Goel's Mega Projects List (you can find the list <a href="https://github.com/karan/Projects">here</a>).</p>
 <ol>
-	<li><a href="project-pi.html">Find Pi to the n-th digit</a></li>
-	<li><a href="project-e.html">Find e to the n-th digit</a></li>
-	<li><a href="project-fib.html">Fibonacci Sequence</a></li>
+	<li><a href="{% url 'project-pi' %}">Find Pi to the n-th digit</a></li>
+	<li><a href="{% url 'project-e' %}">Find e to the n-th digit</a></li>
+	<li><a href="{% url 'project-fibonacci' %}">Fibonacci Sequence</a></li>
+	<li><a href="{% url 'project-prime-factors' %}">Prime Factorization</a></li>
+	<li><a href="{% url 'project-binary-converter' %}">Binary to Decimal and Back Converter</a></li>
 </ol>
 </div>
 
