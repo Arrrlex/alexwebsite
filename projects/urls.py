@@ -9,4 +9,5 @@ urlpatterns = [
 	url(r'^fibonacci/$', views.fibonacci, name='project-fibonacci'),
 	url(r'^prime-factors/$', views.prime_factors, name='project-prime-factors'),
 	url(r'^binary-converter/$', views.binary_converter, name='project-binary-converter'),
+	url(r'^pi-results/$', views.pi_submit, name='pi-submit'),
 ]

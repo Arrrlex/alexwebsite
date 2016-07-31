@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pages',
     'projects',
+    'karan',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -122,4 +123,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = ['/home/alex/web/alexwebsite/static']
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]

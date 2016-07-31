@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from os import listdir
 from os.path import isdir
 
+from karan.pi_spigot import calculate_pi
+
 projlist = [dir for dir in listdir() if isdir(dir)]
 
 def index(request):
@@ -23,3 +25,12 @@ def prime_factors(request):
 
 def binary_converter(request):
 	return HttpResponse('Dummy View.')
+
+def pi_submit(request):
+	digits = int(request.GET['digits'])
+	result = calculate_pi(digits)
+	return render(request, 'projects/pi-result.html', {
+			'current_page': 'portfolio',
+			'digits': digits,
+			'result': result,
+		})

@@ -4,11 +4,13 @@
 
 {% block main %}
 
-<p>Enter a number below, and pi will be calculated to that number of digits (using the Spigot algorithm of Rabonovitz and Wagon).</p>
+<p>Enter a number below, and pi will be calculated to that number of digits (using the Spigot algorithm of Rabinowitz and Wagon).</p>
 
-<form>
+<form action="{% url 'pi-submit' %}" method="get">
 
 <input type="text" name="digits">
+
+<input type="submit" value="Submit" />
 
 </form>
 
