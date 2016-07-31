@@ -60,6 +60,8 @@ def calculate_pi(n):
 	:return: pi approximation, string
 	"""
 
+	
+
 	# Initialise A as a list of 2s, long enough not to cause problems
 	A = [2 for i in range(math.floor(10*n / 3) + 1)]
 

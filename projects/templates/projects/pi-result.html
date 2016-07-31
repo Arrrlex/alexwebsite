@@ -4,6 +4,6 @@
 
 {% block main %}
 
-<p>The value of pi to {{ digits }} figures is {{ result }}.</p>
+<p>The first {{ digits }} digit{% if digits != 1 %}s{% endif %} of pi {% if digits == 1 %}is{% else %}are{% endif %} {{ result }}.</p>
 
 {% endblock %}
