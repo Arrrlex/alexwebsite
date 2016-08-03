@@ -1,0 +1,179 @@
+{% extends "alexwebsite/base.html" %}
+{% load staticfiles %}
+
+{% block title %}CV{% endblock %}
+
+{% block main %}
+
+<p><a href="{% static 'pages/alexmckenzie-cv.pdf' %}">View PDF</a></p>
+
+<div class="cv">
+<h2>Personal Information</h2>
+<dl>
+	<dt>Full Name</dt>
+	<dd>Alexander Thewlis McKenzie</dd>
+	<dt>Date of Birth</dt>
+	<dd>17th August 1994</dd>
+	<dt>Nationality</dt>
+	<dd>Dual British and New Zealand</dd>
+	<dt>Address</dt>
+	<dd>Westfield House, Chat Hill Road, Thornton, Bradford, UK</dd>
+	<dt>Postcode</dt>
+	<dd>BD13 3AP</dd>
+	<dt>Mobile</dt>
+	<dd>+44 7909 118 898</dd>
+	<dt>Email</dt>
+	<dd>alex.thewlis.mckenzie@gmail.com</dd>
+	<dt>Website</dt>
+	<dd>alex-mckenzie.net</dd>
+</dl>
+
+<h2>Education</h2>
+<dl>
+	<dt>2012-2016</dt>
+	<dd>
+		<h3><strong>MMathPhil Mathematics and Philosophy</strong>, 
+		<em>University of Oxford, First Class.</em></h3>
+		<ul>
+			<li>Awarded First Class for parts B and C (first three years and fourth year, respectively)</li>
+			<li>Awarded the Les Woods Scholarship for academic achievement</li>
+		</ul>
+	</dd>
+	<dt>2010-2012</dt>
+	<dd>
+		<h3><strong>A-levels</strong>, 
+		<em>Thornton Grammar School, A* A* A.</em></h3>
+		<ul>
+			<li>A*s in Maths and Further Maths, A in Physics.</li>
+			<li>Awarded the A-level Further Maths Prize</li>
+			<li>Awarded the 'Academic Appointments' prize for best A-level achievement</li>
+		</ul>
+	</dd>
+	<dt>2008-2010</dt>
+	<dd>
+		<h3><strong>GCSEs</strong>, 
+		<em>Thornton Grammar School, 7 A*s, 4 As, 1 B.</em></h3>
+		<ul>
+			<li>including A*s in all three Sciences, Maths and English Language</li>
+		</ul>
+	</dd>
+</dl>
+
+<h2>Employment Experience</h2>
+<dl>
+	<dt>July 2015</dt>
+	<dd>
+		<h3>
+			<strong>Training Experience</strong>, 
+			<em>Softwire, </em>
+			London.
+		</h3>
+		<ul>
+			<li>Learned C#, various web technologies and the basics of commercial software development</li>
+			<li>Programmed individually and in pairs</li>
+			<li>In a team of six, wrote an internal Softwire app for lunch collection</li>
+		</ul>
+	</dd>
+	<dt>July 2014</dt>
+	<dd>
+		<h3>
+			<strong>Academic Mentor</strong>, 
+			<em>UNIQ Summer School, </em>Oxford.
+		</h3>
+		<ul>
+			<li>Provided help and support for prospective university students</li>
+			<li>Responsible for nine students for a week</li>
+			<li>Fostered team spirit with team challenges</li>
+			<li>Gave presentation on 'How to build a calculator with dominoes'</li>
+		</ul>
+	</dd>
+</dl>
+
+<h2>Positions of Responsibility</h2>
+<dl>
+	<dt>2014-2015</dt>
+	<dd>
+		<h3>
+			<strong>Website and Computing Officer</strong>, 
+			<em>Balliol JCR.</em>
+		</h3>
+		<ul>
+			<li>Managed student union's website, maintaining and modifying several custom Drupal modules</li>
+			<li>Managed mailing lists</li>
+			<li>Provided general computing help</li>
+		</ul>
+	</dd>
+	<dt>Oct-Nov '13</dt>
+	<dd>
+		<h3>
+			<strong>Volunteer Trainer</strong>, 
+			<em>Oxford Nightline.</em>
+		</h3>
+		<ul>
+			<li>Trained 9 students as a team of 3, over 2 full days of training and 1 day of assessment</li>
+		</ul>
+	</dd>
+</dl>
+
+<h2>Computer Skills</h2>
+<dl>
+	<dt>Languages</dt>
+	<dd>
+		<ul>
+			<li>Python (proficient)</li>
+			<li>Django (intermediate)
+				<ul><li>Built personal website using Django</li></ul>
+			</li>
+			<li>LaTeX (proficient)</li>
+		</ul>
+	</dd>
+	<dt>Software</dt>
+	<dd>
+		<ul>
+			<li>Microsoft Office (proficient)</li>
+			<li>Windows (proficient)</li>
+			<li>Linux (comfortable)</li>
+		</ul>
+	</dd>
+</dl>
+
+<h2>Other Qualifications</h2>
+<dl>
+	<dt>Piano</dt>
+	<dd>Grade 8 (Merit)</dd>
+	<dt>Drums</dt>
+	<dd>Grade 8 (Merit)</dd>
+	<dt>Duke of Edinburgh</dt>
+	<dd>Bronze</dd>
+</dl>
+
+<h2>Interests and Activities</h2>
+<dl>
+	<dt>Music</dt>
+	<dd>
+		<ul>
+			<li>Perform regularly as part of a band or on my own</li>
+			<li>Won the talent competitions at my school and Balliol college, Oxford</li>
+			<li>Compose and have recorded my own music</li>
+			<li>Part of Balliol College choir tour to Florence in 2014</li>
+		</ul>
+	</dd>
+	<dt>Drama</dt>
+	<dd>
+		<ul>
+			<li>Major acting role in production of 'His Dark Materials' in November 2014</li>
+			<li>Lead role in £30,000 production of 'The Sorcerer' at the Minack Theatre</li>
+			<li>Lead role in upcoming production of 'The Mikado' at the Minack Theatre</li>
+		</ul>
+	</dd>
+	<dt>Volunteering</dt>
+	<dd>
+		<ul>
+			<li>Volunteered for Oxford Nightline, a confidential listening service for students</li>
+		</ul>
+	</dd>
+</dl>
+
+</div>
+
+{% endblock %}

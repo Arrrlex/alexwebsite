@@ -5,7 +5,7 @@ def index(request):
     return render(request, 'pages/index.html', {'current_page': 'index'})
 
 def cv_index(request):
-	return render(request, 'pages/cv_index.html', {'current_page': 'cv_index'})
+	return render(request, 'pages/cv.html', {'current_page': 'cv'})
 
 def contact(request):
 	return render(request, 'pages/contact.html', {'current_page': 'contact'})

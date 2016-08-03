@@ -4,9 +4,7 @@ from django.http import HttpResponse
 from os import listdir
 from os.path import isdir
 
-from karan.pi import calculate_pi
-
-projlist = [dir for dir in listdir() if isdir(dir)]
+from projects.logic.pi import calculate_pi
 
 def index(request):
 	return render(request, 'projects/index.html', {'current_page': 'portfolio'})
