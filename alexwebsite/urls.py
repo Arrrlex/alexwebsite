@@ -18,6 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^portfolio/', include('projects.urls')),
+    url(r'^portfolio/', include('projects.urls'), kwargs={'current_page': 'portfolio'}),
     url(r'', include('pages.urls')),
 ]

@@ -1,17 +1,9 @@
-{% extends 'alexwebsite/base.html' %}
+{% extends 'projects/project-applet.html' %}
 
-{% block title %}Fibonacci Sequence Calculator{% endblock %}
+{% block title %}fibonacci Calculator{% endblock %}
 
-{% block main %}
+{% block applet-text %}
 
 <p>Enter a number below, and that term of the fibonacci sequence will be calculated (using the dynamic programming algorithm).</p>
-
-<form action="{% url 'projects:fibonacci-submit' %}" method="get">
-
-<input type="text" name="arg">
-
-<input type="submit" value="Submit" />
-
-</form>
 
 {% endblock %}
