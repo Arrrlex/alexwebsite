@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'^binary-converter/$', views.binary_converter, name='binary-converter'),
 	url(r'^pi-results/$', views.pi_submit, name='pi-submit'),
 	url(r'^e-results/$', views.e_submit, name='e-submit'),
+	url(r'^fibonacci-result/$', views.fibonacci_submit, name='fibonacci-submit'),
 ]
