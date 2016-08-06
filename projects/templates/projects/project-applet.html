@@ -5,7 +5,9 @@
 
 {% block main %}
 
+<p class="breadcrumb"><a href="{% url 'projects:index' %}">Back to Portfolio</a></p>
 
+{% block h2 %}<h2>{% block title %}{% endblock %}</h2>{% endblock %}
 
 {% block applet-text %}{% endblock %}
 
