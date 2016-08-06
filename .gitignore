@@ -47,3 +47,6 @@ docs/_build/
 
 # My personal to-do list:
 todo.md
+
+# secret settings:
+settings_secret.py
