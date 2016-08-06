@@ -1,0 +1,34 @@
+{% extends 'alexwebsite/base.html' %}
+{% load staticfiles %}
+
+{% block style %}<link rel="stylesheet" type="text/css" href="{% static 'projects/style.css' %}" />{% endblock %}
+
+{% block main %}
+
+
+
+{% block applet-text %}{% endblock %}
+
+<form action="{% url submit %}" method="get">
+
+<input type="text" name="arg">
+
+<input type="submit" value="Submit" />
+
+</form>
+
+{% block result %}
+
+{% if result %}
+<p class="result">Result: {{ result }}</p>
+{% endif %}
+
+{% endblock result %}
+
+{% block error %}
+
+{% if error_message %}<p class="error-message">{{ error_message }}</p>{% endif %}
+
+{% endblock %}
+
+{% endblock main %}

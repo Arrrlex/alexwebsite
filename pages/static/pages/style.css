@@ -1,0 +1,101 @@
+/* ============= */
+/* ABOUT SECTION */
+/* ============= */
+
+#about {
+	margin: 20px auto;
+	display: flex;
+	justify-content: center;
+}
+
+.about-text {
+	width: 400px;
+	text-align: left;
+	padding-top: 30px;
+	padding-right: 10px;
+}
+
+.about-photo {
+	width: 300px;
+}
+
+.about-photo img {
+	width: 100%;
+}
+
+/* responsive stuff */
+
+@media screen and (max-width: 479px) {
+	#about {
+		display: block;
+		margin: 0;
+	}
+	.about-text {
+		font-size: 17px;
+		padding: 0;
+		max-width: 100%;
+	}
+	.about-photo {
+		max-width:60%;
+		margin:auto;
+	}
+}
+
+/* =============== */
+/* CONTACT SECTION */
+/* =============== */
+
+.centre-list {
+	display: flex;
+}
+
+.centre-list ul {
+	list-style-type: square;
+	margin-top: 30px;
+	margin: 30px auto 0;
+}
+.centre-list li {
+/*	font-size: 20px;*/
+	margin-top: 10px;
+}
+
+/* ========== */
+/* CV SECTION */
+/* ========== */
+
+.cv dl {
+	width: 100%;
+	overflow: hidden;
+}
+
+.cv dt {
+	width: 30%;
+}
+
+.cv dd {
+	width: 70%;
+}
+
+.cv dt, .cv dd {
+	float: left;
+	margin: 5px 0 5px;
+}
+
+.cv h3 {
+	margin-top: 0;
+}
+
+/* responsive stuff */
+@media screen and (max-width: 479px) {
+	.cv-info {
+		text-align: center;
+	}
+	.cv dt, .cv dd {
+		float: none;
+		width: 100%;
+		display: block;
+	}
+	.cv dt {
+		font-style: italic;
+	}
+}
