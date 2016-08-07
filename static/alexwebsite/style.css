@@ -46,6 +46,8 @@ a {
 @media screen and (max-width: 479px) {
 	body {
 		width: 100%;
+		font-size: 17px;
+		margin: 25px 0 0 0;
 	}
 }
 
@@ -117,6 +119,7 @@ a {
 .main-menu-title img {
 	width: 35px;
 	margin-top: 10px;
+	margin-bottom: 4px;
 }
 
 
