@@ -8,12 +8,8 @@ from os.path import isdir
 from projects.logic.pi import calculate_pi
 from projects.logic.e import calculate_e
 from projects.logic.fibonacci import fib
-
-def prime_factors(request):
-	return HttpResponse('Dummy View.')
-
-def binary_converter(request):
-	return HttpResponse('Dummy View.')
+from projects.logic.prime_factors import write_prime_factors
+from projects.logic.binary_converter import decimal_to_binary, binary_to_decimal
 
 def karan_project(request, current_page):
 	context = {'current_page': current_page, 'func':'calculate_pi', 'arg': '50'}

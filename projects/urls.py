@@ -15,6 +15,4 @@ urlpatterns = [
 	url(r'^karan/$',
 		views.karan_project,
 		name='karan'),
-	url(r'^prime-factors/$', views.prime_factors, name='prime-factors'),
-	url(r'^binary-converter/$', views.binary_converter, name='binary-converter'),
 ]

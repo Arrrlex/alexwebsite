@@ -50,3 +50,6 @@ todo.md
 
 # secret settings:
 settings_secret.py
+
+# binary files I don't care about:
+*.pyc
