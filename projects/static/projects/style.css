@@ -5,3 +5,13 @@
 .result {
 	word-wrap: break-word;
 }
+
+.applet-form input[type="text"] {
+	padding: 0 5px;
+	text-align: center;
+	width: 45px;
+}
+
+.applet-form select {
+	background-color: white;
+}

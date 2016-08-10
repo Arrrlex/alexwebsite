@@ -30,6 +30,10 @@ a {
 	text-decoration: none;
 	color: #06f;
 }
+
+input, select {
+	font-size: 20px;
+}
 /* responsive stuff */
 
 @media screen and (min-width: 480px) {
@@ -48,6 +52,9 @@ a {
 		width: 100%;
 		font-size: 17px;
 		margin: 25px 0 0 0;
+	}
+	input, select {
+		font-size: 17px;
 	}
 }
 
