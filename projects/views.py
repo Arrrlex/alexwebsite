@@ -11,19 +11,26 @@ from projects.logic.fibonacci import fib_str
 from projects.logic.prime_factors import write_prime_factors
 from projects.logic.binary_converter import decimal_to_binary, binary_to_decimal
 
+func_dict = {
+	'pi': 'calculate_pi', 
+	'e': 'calculate_e', 
+	'fib': 'fib_str', 
+	'prime_factors': 'write_prime_factors', 
+	'to_binary': 'decimal_to_binary',
+	'to_decimal': 'binary_to_decimal'
+}
+
 def karan_project(request, current_page):
 	context = {'current_page': current_page, 'func':'calculate_pi', 'arg': '50'}
 	try:
 		input_arg = request.GET['arg']
 		context['arg'] = input_arg
 	except:
-		context['error_message'] = 'Please enter a number'
 		return render(request, 'projects/applet-karan.html', context)
 	try:
-		input_func = request.GET['fun']
+		input_func = request.GET['func']
 		context['func'] = input_func
 	except:
-		context['error_message'] = 'Please choose a valid option'
 		return render(request, 'projects/applet-karan.html', context)
 	try:
 		arg = int(input_arg)
@@ -34,7 +41,7 @@ def karan_project(request, current_page):
 		context['error_message'] = 'Please enter a number between 1 and 1000, to avoid large strain on the server.'
 		return render(request, 'projects/applet-karan.html', context)
 	try:
-		fun = eval(input_func)
+		fun = eval(func_dict[input_func])
 	except:
 		context['error_message'] = 'Please choose a valid script'
 		return render(request, 'projects/applet-karan.html', context)
