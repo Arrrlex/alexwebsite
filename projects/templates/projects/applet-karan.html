@@ -18,10 +18,10 @@
 <input type="text" name="arg" value="{{ arg }}">
 
 <select name="func">
-	<option value="pi" {% if func == 'calculate_pi' %}selected{% endif %}>digits of pi</option>
-	<option value="e" {% if func == 'calculate_e' %}selected{% endif %}>digits of e</option>
-	<option value="fib" {% if func == 'fib_str' %}selected{% endif %}>-th term of fibonacci sequence</option>
-	<option value="prime_factors" {% if func == 'write_prime_factors' %}selected{% endif %}>as the product of prime factors</option>
+	<option value="pi" {% if func == 'pi' %}selected{% endif %}>digits of pi</option>
+	<option value="e" {% if func == 'e' %}selected{% endif %}>digits of e</option>
+	<option value="fib" {% if func == 'fib' %}selected{% endif %}>-th term of fibonacci sequence</option>
+	<option value="prime_factors" {% if func == 'prime_factors' %}selected{% endif %}>as the product of prime factors</option>
 </select>
 
 <input type="submit" value="Calculate" />
