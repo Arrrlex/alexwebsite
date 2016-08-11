@@ -7,7 +7,7 @@ from os.path import isdir
 
 from projects.logic.pi import calculate_pi
 from projects.logic.e import calculate_e
-from projects.logic.fibonacci import fib
+from projects.logic.fibonacci import fib_str
 from projects.logic.prime_factors import write_prime_factors
 from projects.logic.binary_converter import decimal_to_binary, binary_to_decimal
 
@@ -17,11 +17,13 @@ def karan_project(request, current_page):
 		input_arg = request.GET['arg']
 		context['arg'] = input_arg
 	except:
+		context['error_message'] = 'Please enter a number'
 		return render(request, 'projects/applet-karan.html', context)
 	try:
 		input_func = request.GET['fun']
 		context['func'] = input_func
 	except:
+		context['error_message'] = 'Please choose a valid option'
 		return render(request, 'projects/applet-karan.html', context)
 	try:
 		arg = int(input_arg)

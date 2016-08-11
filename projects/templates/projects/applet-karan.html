@@ -1,0 +1,45 @@
+{% extends 'alexwebsite/base.html' %}
+{% load static %}
+
+{% block style %}<link rel="stylesheet" type="text/css" href="{% static 'projects/style.css' %}" />{% endblock %}
+
+{% block main %}
+
+<p class="breadcrumb"><a href="{% url 'projects:index' %}">&lt; Back to Portfolio</a></p>
+
+<h2>{% block title %}Karan Goel's Projects{% endblock %}</h2>
+
+<p>Here you can find a simple interface for a series of python scripts I wrote as solutions to <a href="https://github.com/karan/Projects">Karan Goel's Mega Projects List</a>.</p>
+
+<p>For the Python source code, see <a href="https://github.com/Arrrlex/alexwebsite/tree/master/projects/logic">here</a>.</p>
+
+<form class="applet-form" action="{% url 'projects:karan' %}" method="get">
+
+<input type="text" name="arg" value="{{ arg }}">
+
+<select name="fun">
+	<option value="calculate_pi" {% if func == 'calculate_pi' %}selected{% endif %}>digits of pi</option>
+	<option value="calculate_e" {% if func == 'calculate_e' %}selected{% endif %}>digits of e</option>
+	<option value="fib_str" {% if func == 'fib' %}selected{% endif %}>-th term of fibonacci sequence</option>
+	<option value="write_prime_factors" {% if func == 'write_prime_factors' %}selected{% endif %}>as the product of prime factors</option>
+</select>
+
+<input type="submit" value="Calculate" />
+
+</form>
+
+{% block result %}
+
+{% if result %}
+<p class="result">Result: {{ result|safe }}</p>
+{% endif %}
+
+{% endblock result %}
+
+{% block error %}
+
+{% if error_message %}<p class="error-message">{{ error_message }}</p>{% endif %}
+
+{% endblock %}
+
+{% endblock main %}
