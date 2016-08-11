@@ -9,7 +9,7 @@ from projects.logic.pi import calculate_pi
 from projects.logic.e import calculate_e
 from projects.logic.fibonacci import fib_str
 from projects.logic.prime_factors import write_prime_factors
-from projects.logic.binary_converter import decimal_to_binary, binary_to_decimal
+from projects.logic.binary_converter import decimal_to_binary
 
 func_dict = {
 	'pi': 'calculate_pi', 
@@ -17,7 +17,6 @@ func_dict = {
 	'fib': 'fib_str', 
 	'prime_factors': 'write_prime_factors', 
 	'to_binary': 'decimal_to_binary',
-	'to_decimal': 'binary_to_decimal'
 }
 
 def karan_project(request, current_page):
@@ -34,7 +33,7 @@ def karan_project(request, current_page):
 		return render(request, 'projects/applet-karan.html', context)
 	try:
 		arg = int(input_arg)
-	except:
+	except ValueError:
 		context['error_message'] = 'Please enter a valid number'
 		return render(request, 'projects/applet-karan.html', context)
 	if not 1 <= arg <= 1000:
@@ -45,6 +44,9 @@ def karan_project(request, current_page):
 	except:
 		context['error_message'] = 'Please choose a valid script'
 		return render(request, 'projects/applet-karan.html', context)
-	result = fun(arg)
+	try:
+		result = fun(arg)
+	except AssertionError:
+		context['error_message'] = 'Please choose a valid number'
 	context.update({'arg': arg, 'result': result})
 	return render(request, 'projects/applet-karan.html', context)
