@@ -6,6 +6,8 @@ from projects.logic.fibonacci import fib
 from projects.views import prime_factors
 from projects.logic.next_prime import first_k_primes
 
+from projects.logic.sample_values import pi_1000, e_1000, fib_1000, prime_factors_1000, first_1000_primes
+
 from django.core.urlresolvers import reverse
 
 class KaranScriptsTests(TestCase):
@@ -13,17 +15,32 @@ class KaranScriptsTests(TestCase):
 	def test_pi_50(self):
 		self.assertEqual(calculate_pi(50), "3.1415926535897932384626433832795028841971693993751")
 
+	def test_pi_1000(self):
+		self.assertEqual(calculate_pi(1000), pi_1000)
+
 	def test_e_50(self):
 		self.assertEqual(calculate_e(50), "2.7182818284590452353602874713526624977572470936999")
+
+	def test_e_1000(self):
+		self.assertEqual(calculate_e(1000), e_1000)
 
 	def test_fib_50(self):
 		self.assertEqual(fib(50), 12586269025)
 
+	def test_fib_1000(self):
+		self.assertEqual(fib(1000), fib_1000)
+
 	def test_prime_factors_50(self):
 		self.assertEqual(prime_factors(50), {2:1, 5:2})
 
+	def test_prime_factors_1000(self):
+		self.assertEqual(prime_factors(1000), prime_factors_1000)
+
 	def test_primes_list_50(self):
 		self.assertEqual(first_k_primes(50), "2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229")
+
+	def test_primes_list_1000(self):
+		self.assertEqual(first_k_primes(1000), first_1000_primes)
 
 class PiViewTests(TestCase):
 

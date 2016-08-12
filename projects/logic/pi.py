@@ -60,8 +60,6 @@ def calculate_pi(n):
 	:return: pi approximation, string
 	"""
 
-	
-
 	# Initialise A as a list of 2s, long enough not to cause problems
 	A = [2 for i in range(math.floor(10*n / 3) + 1)]
 
@@ -71,7 +69,7 @@ def calculate_pi(n):
 		predigits, add_to_result_array = adjust_predigits(predigits, p)
 		result_array += add_to_result_array
 
-	result = [str(x) for x in result_array]
+	result = [str(x) for x in result_array[:n]]
 	return result[0] + '.' + ''.join(result[1:])
 
 
