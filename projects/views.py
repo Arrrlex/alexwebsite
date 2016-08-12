@@ -57,7 +57,7 @@ def karan_project(request, current_page):
 		context['error_message'] = 'Please enter a valid number'
 		return render(request, 'projects/applet-karan.html', context)
 	if not 1 <= arg <= 1000:
-		context['error_message'] = 'Please enter a number between 1 and 1000, to avoid large strain on the server.'
+		context['error_message'] = 'Please enter a number between 1 and 1000, to avoid heavy strain on the server.'
 		return render(request, 'projects/applet-karan.html', context)
 	try:
 		fun = eval(func_dict[input_func])
