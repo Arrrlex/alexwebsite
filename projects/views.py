@@ -7,17 +7,37 @@ from os.path import isdir
 
 from projects.logic.pi import calculate_pi
 from projects.logic.e import calculate_e
-from projects.logic.fibonacci import fib_str
-from projects.logic.prime_factors import write_prime_factors
+from projects.logic.fibonacci import fib
+from projects.logic.prime_factors import prime_factors
 from projects.logic.binary_converter import decimal_to_binary
+from projects.logic.next_prime import first_k_primes
 
 func_dict = {
 	'pi': 'calculate_pi', 
 	'e': 'calculate_e', 
-	'fib': 'fib_str', 
+	'fib': 'lambda x: str(fib(x))', 
 	'prime_factors': 'write_prime_factors', 
 	'to_binary': 'decimal_to_binary',
+	'primes_list': 'first_k_primes'
 }
+
+def write_prime_factors(x):
+    """
+    Takes an integer x, and returns html describing the decomposition of x into prime factors.
+    For example: the input "40" gives the string
+    "2<sup>3</sup> &times; 5"
+    which evaluates to the equivalent of the expression
+    "2**3 * 5"
+    """
+    factors = prime_factors(x)
+    result_list = []
+    for factor, exponent in factors.items():
+        if exponent == 1:
+            result_list.append(str(factor))
+        else:
+            to_append = '{0}<sup>{1}</sup>'.format(factor, exponent)
+            result_list.append(to_append)
+    return ' &times; '.join(result_list)
 
 def karan_project(request, current_page):
 	context = {'current_page': current_page, 'func':'calculate_pi', 'arg': '50'}

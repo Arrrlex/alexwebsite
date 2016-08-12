@@ -5,6 +5,3 @@ def fib(n):
         fib_dict[n] = fib(n-1) + fib(n-2)
 
     return fib_dict[n]
-
-def fib_str(n):
-	return str(fib(n))
