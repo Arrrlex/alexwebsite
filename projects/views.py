@@ -12,15 +12,6 @@ from projects.logic.prime_factors import prime_factors
 from projects.logic.binary_converter import decimal_to_binary
 from projects.logic.next_prime import first_k_primes
 
-func_dict = {
-	'pi': 'calculate_pi', 
-	'e': 'calculate_e', 
-	'fib': 'lambda x: str(fib(x))', 
-	'prime_factors': 'write_prime_factors', 
-	'to_binary': 'decimal_to_binary',
-	'primes_list': 'first_k_primes'
-}
-
 def write_prime_factors(x):
     """
     Takes an integer x, and returns html describing the decomposition of x into prime factors.
@@ -39,34 +30,45 @@ def write_prime_factors(x):
             result_list.append(to_append)
     return ' &times; '.join(result_list)
 
+func_dict = {
+	'pi': (calculate_pi, 1000), 
+	'e': (calculate_e, 1000), 
+	'fib': ((lambda x: str(fib(x))), 1000), 
+	'prime_factors': (write_prime_factors, 1000), 
+	'to_binary': (decimal_to_binary, 1000),
+	'primes_list': (first_k_primes, 1000)
+}
+
 def karan_project(request, current_page):
 	context = {'current_page': current_page, 'func':'calculate_pi', 'arg': '50'}
+	render_karan = lambda context: render(request, 'projects/applet-karan.html', context)
 	try:
 		input_arg = request.GET['arg']
 		context['arg'] = input_arg
 	except:
-		return render(request, 'projects/applet-karan.html', context)
+		return render_karan(context)
 	try:
 		input_func = request.GET['func']
 		context['func'] = input_func
 	except:
-		return render(request, 'projects/applet-karan.html', context)
+		return render_karan(context)
 	try:
 		arg = int(input_arg)
 	except ValueError:
 		context['error_message'] = 'Please enter a valid number'
-		return render(request, 'projects/applet-karan.html', context)
-	if not 1 <= arg <= 1000:
-		context['error_message'] = 'Please enter a number between 1 and 1000, to avoid heavy strain on the server.'
-		return render(request, 'projects/applet-karan.html', context)
+		return render_karan(context)
 	try:
-		fun = eval(func_dict[input_func])
+		func_max = func_dict[input_func]
 	except:
 		context['error_message'] = 'Please choose a valid script'
-		return render(request, 'projects/applet-karan.html', context)
+		return render_karan(context)
+	if not 1 <= arg <= func_max[1]:
+		context['error_message'] = 'For this script, please choose a number between 1 and {}'.format(func_max[1])
+		return render_karan(context)
 	try:
-		result = fun(arg)
+		result = func_max[0](arg)
 	except AssertionError:
 		context['error_message'] = 'Please choose a valid number'
+		return render_karan(context)
 	context.update({'arg': arg, 'result': result})
-	return render(request, 'projects/applet-karan.html', context)
+	return render_karan(context)
