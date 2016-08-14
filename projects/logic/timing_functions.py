@@ -36,4 +36,9 @@ def find_timeout_level(func, import_location='__main__', timeout=2, trials=5):
 # Running find_timeout_level on server for various functions and timeout=2:
 
 # calculate_pi: 878.4
-# calculate_e: 
+# calculate_e: 1937
+# fib: 7 198 655.4
+# fib_str: 1 554 857.2
+# write_prime_factors: 8 460 216 943 (data not consistent though)
+# decimal_to_binary: as large as you like
+# primes_list: not applicable (hard argument limit set by sieve size)

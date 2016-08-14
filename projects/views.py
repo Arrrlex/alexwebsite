@@ -30,12 +30,17 @@ def write_prime_factors(x):
             result_list.append(to_append)
     return ' &times; '.join(result_list)
 
+# The first item in each tuple is the function to be called.
+# The second item is the maximum argument size, corresponding to the server
+# taking roughly 2 seconds to compute the function with that input. This
+# was calculated using find_timeout_level in logic/timing_functions.py
+
 func_dict = {
-	'pi': (calculate_pi, 1000), 
-	'e': (calculate_e, 1000), 
-	'fib': ((lambda x: str(fib(x))), 1000), 
-	'prime_factors': (write_prime_factors, 1000), 
-	'to_binary': (decimal_to_binary, 1000),
+	'pi': (calculate_pi, 878), 
+	'e': (calculate_e, 1937), 
+	'fib': ((lambda x: str(fib(x))), 1554857), 
+	'prime_factors': (write_prime_factors, 1000000), 
+	'to_binary': (decimal_to_binary, 10000000),
 	'primes_list': (first_k_primes, 1000)
 }
 
