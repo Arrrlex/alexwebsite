@@ -35,7 +35,7 @@
 <ul>
 	<li><a href="{% url 'index' %}" {% if current_page == 'index' %}class="active"{% endif %}>Home</a></li>
 	<li><a href="{% url 'cv' %}" {% if current_page == 'cv' %}class="active"{% endif %}>CV</a></li>
-	<li><a href="{% url 'projects:index' %}" {% if current_page == 'portfolio' %}class="active"{% endif %}>Portfolio</a></li>
+	<li><a href="{% url 'portfolio' %}" {% if current_page == 'portfolio' %}class="active"{% endif %}>Portfolio</a></li>
 	<li><a href="{% url 'contact' %}" {% if current_page == 'contact' %}class="active"{% endif %}>Contact</a></li>
 </ul>
 </nav>

@@ -10,9 +10,7 @@ from projects.logic.fibonacci import fib
 app_name = 'projects'
 urlpatterns = [
 	url(r'^$',
-		TemplateView.as_view(template_name='projects/index.html'),
-		name='index'),
-	url(r'^karan/$',
 		views.karan_project,
-		name='karan'),
+		name='karan',
+		kwargs={'current_page': 'portfolio'}),
 ]
