@@ -1,0 +1,85 @@
+{% extends 'alexwebsite/base.html' %}
+{% load static %}
+
+{% block style %}<link rel="stylesheet" type="text/css" href="{% static 'projects/style.css' %}" />{% endblock %}
+
+{% block main %}
+
+<p class="breadcrumb"><a href="{% url 'portfolio' %}">&lt; Back to Portfolio</a></p>
+
+<h2>{% block title %}Tiling Miniproject{% endblock %}</h2>
+
+<p>
+	This applet calculates how many square tiles to buy to tile a 
+	rectangular floor, given the dimensions of the floor and the size
+	of the tiles. It also tells you how to cut up the tiles to have the
+	right size pieces to fill the gaps.
+</p>
+
+<form class="applet-form" action="{% url 'projects:tiling' %}" method="get">
+
+<p>
+	Floor dimensions: 
+	<input type="text" name="width" value="{{ width }}">
+	&times;
+	<input type="text" name="height" value="{{ height }}">
+</p>
+<p>
+	Tile size:
+	<input type="text" name="side_length" value="{{ side_length }}">
+	m<sup>2</sup>
+</p>
+<p>
+	Cost per tile: &euro;
+	<input type="text" name="cost_per_tile" value="{{ cost_per_tile }}">
+</p>
+
+<input type="submit" value="Calculate" />
+
+</form>
+
+{% block result %}
+
+{% if result %}
+<h2>Results</h2>
+<p>Total cost: &euro;{{ total_cost }}</p>
+<p>Number of tiles: {{ total_tiles }}</p>
+<p>Bird's eye view:</p>
+<svg width="{{ width }}" height="{{ height }}" xmlns="http://www.w3.org/2000/svg">
+	{% for coll in birds_eye %}
+		{% for position in coll.positions %}
+			<rect x="{{ position.x }}" y="{{ position.y }}" width="{{ coll.width }}" height="{{ coll.height }}" class="{{ coll.class }}" />
+		{% endfor %}
+	{% endfor %}
+</svg>
+
+<p>Tiles to be cut up:</p>
+<ul>
+	{% for cut_tile in cut_tiles %}
+	<li> Cut {{ cut_tile.num }} tiles as follows:
+		<svg width="{{ side_length }}" height="{{ side_length }}" xmlns="http://www.w3.org/2000/svg">
+			{% for fragment in cut_tile.fragments %}
+				<rect 
+					x="{% if fragment.x %}{{ fragment.x }}{% else %}0{% endif %}" 
+					y="{{ fragment.y }}" 
+					width="{% if fragment.width %}{{ fragment.width }}{% else %}{{ side_length }} {% endif %}" 
+					height="{{ fragment.height }}" 
+					class="{{ fragment.class }}"/>
+			{% endfor %}
+		</svg>
+	</li>
+	{% endfor %}
+</ul>
+
+
+{% endif %}
+
+{% endblock result %}
+
+{% block error %}
+
+{% if error_message %}<p class="error-message">{{ error_message }}</p>{% endif %}
+
+{% endblock %}
+
+{% endblock main %}

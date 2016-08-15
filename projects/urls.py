@@ -9,8 +9,12 @@ from projects.logic.fibonacci import fib
 
 app_name = 'projects'
 urlpatterns = [
-	url(r'^$',
-		views.karan_project,
-		name='karan',
+	url(r'^basic$',
+		views.basic_projects,
+		name='basic',
 		kwargs={'current_page': 'portfolio'}),
+	url(r'^tiling$',
+		views.tiling,
+		name='tiling',
+		kwargs={'current_page':'portfolio'}),
 ]

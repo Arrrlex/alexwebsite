@@ -11,10 +11,12 @@ from projects.logic.fibonacci import fib
 from projects.logic.prime_factors import prime_factors
 from projects.logic.binary_converter import decimal_to_binary
 from projects.logic.next_prime import first_k_primes
+from projects.logic.tiling import get_tiles, birds_eye, cut_tiles
 
 def write_prime_factors(x):
     """
-    Takes an integer x, and returns html describing the decomposition of x into prime factors.
+    Takes an integer x, and returns html describing the decomposition of x 
+    into prime factors.
     For example: the input "40" gives the string
     "2<sup>3</sup> &times; 5"
     which evaluates to the equivalent of the expression
@@ -44,9 +46,11 @@ func_dict = {
 	'primes_list': (first_k_primes, 1000)
 }
 
-def karan_project(request, current_page):
-	context = {'current_page': current_page, 'func':'calculate_pi', 'arg': '50'}
-	render_karan = lambda context: render(request, 'projects/applet-karan.html', context)
+def basic_projects(request, current_page):
+	context = {'current_page': current_page, 'func':'calculate_pi', 
+		'arg': '50'}
+	render_karan = lambda context: render(request, 
+		'projects/applet-karan.html', context)
 	try:
 		input_arg = request.GET['arg']
 		context['arg'] = input_arg
@@ -68,7 +72,9 @@ def karan_project(request, current_page):
 		context['error_message'] = 'Please choose a valid script'
 		return render_karan(context)
 	if not 1 <= arg <= func_max[1]:
-		context['error_message'] = 'For this script, please choose a number between 1 and {}'.format(func_max[1])
+		context['error_message'] = (
+			'For this script, please choose a number between 1 and {}'.format(
+				func_max[1]))
 		return render_karan(context)
 	try:
 		result = func_max[0](arg)
@@ -77,3 +83,31 @@ def karan_project(request, current_page):
 		return render_karan(context)
 	context.update({'arg': arg, 'result': result})
 	return render_karan(context)
+
+def tiling(request, current_page):
+	width, height, side_length, cost_per_tile = (
+		int(request.GET['width']), int(request.GET['height']), 
+		int(request.GET['side_length']), int(request.GET['cost_per_tile']))
+	(total_tiles, whole_rows, whole_cols, 
+		extra_tiles, rem_width, rem_height) = get_tiles(
+		width, height, side_length)
+	return render(
+		request,
+		'projects/tiling-applet.html', {
+			'width': width,
+			'height': height,
+			'side_length': side_length,
+			'cost_per_tile': cost_per_tile,
+			'request':request,
+			'current_page':current_page,
+			'scale_factor':480/width,
+			'result':True,
+			'total_cost': total_tiles * cost_per_tile,
+			'total_tiles': total_tiles,
+			'birds_eye': birds_eye(
+				whole_rows, whole_cols, 
+				side_length, 
+				rem_width, rem_height, 
+				width, height),
+			'cut_tiles': cut_tiles(side_length, extra_tiles)
+		})

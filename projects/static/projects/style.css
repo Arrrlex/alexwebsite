@@ -16,6 +16,25 @@
 	background-color: white;
 }
 
+svg {
+	shape-rendering: crispEdges;
+	padding:3px;
+}
+
+svg rect {
+	fill: white;
+	stroke: black;
+	stroke-width: 1px;
+}
+
+svg rect.fragment {
+	fill: grey;
+}
+
+svg rect.discard {
+	fill: red;
+}
+
 @media screen and (max-width: 479px) {
 	.applet-form select, .applet-form input {
 		margin: 5px 0;
