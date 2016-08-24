@@ -17,8 +17,19 @@
 }
 
 svg {
-	shape-rendering: crispEdges;
-	padding:3px;
+	/*shape-rendering: crispEdges;*/
+	padding: 3px;
+	width: 100px;
+	/* Hack for scaling svgs */
+	height: 1px;
+	overflow: visible;
+
+	display: block;
+	margin: auto;
+}
+
+svg.birds-eye {
+	width: 90%;
 }
 
 svg rect {
@@ -33,6 +44,12 @@ svg rect.fragment {
 
 svg rect.discard {
 	fill: red;
+	stroke: red;
+}
+
+svg.tile-new {
+	float: left;
+	margin:3px;
 }
 
 @media screen and (max-width: 479px) {

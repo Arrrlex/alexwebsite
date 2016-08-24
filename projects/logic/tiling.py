@@ -1,137 +1,154 @@
 import ast
-import collections
+from collections import Counter
 
-class TileFragmentCollection:
+class TileFragment:
+	"""A fragment of a square tile"""
 
-	# A tile fragments collection consists of the fragments of tile that are 
-	# needed to complete the tiling of the floor
+	def __init__(self, width, height):
+		self.width = width
+		self.height = height
 
-	def __init__(self, righttiles_length, righttiles_number, 
-			bottomtiles_length, bottomtiles_number):
-		self.righttiles_length = righttiles_length
-		self.righttiles_number = righttiles_number
-		self.bottomtiles_length = bottomtiles_length
-		self.bottomtiles_number = bottomtiles_number
-
-	def __str__(self):
-		"""
-		returns a string of the form
-		{ righttiles_length: righttiles_number, 
-			bottomtiles_length: bottomtiles_number}
-		if righttiles_length and bottomtiles_length are different, and 
-		{ righttiles_length: self.count() }
-		if they're the same.
-
-		This is useful, as performing ast.literal_eval will turn it into a
-		dictionary mapping length of fragment to number of instances of 
-		fragment.
-		"""
-		if self.righttiles_length == self.bottomtiles_length:
-			return "{{ {0}: {1} }}".format(self.righttiles_length, self.count())
-		else:
-			return "{{ {0}: {1}, {2}: {3} }}".format(
-				self.righttiles_length, self.righttiles_number, 
-				self.bottomtiles_length, self.bottomtiles_number)
+	def rotate(self):
+		return TileFragment(self.height, self.width)
 
 	def length(self):
-		"""
-		returns the total 'length' of tile in this collection of fragments.
-		"""
-		return (self.righttiles_number * self.righttiles_length + 
-			self.bottomtiles_number * self.bottomtiles_length)
+		return min(self.width, self.height)
 
-	def count(self):
-		"""
-		returns the total number of fragments in this collection
-		"""
-		return self.righttiles_number + self.bottomtiles_number
+	def __eq__(self, other):
+		if isinstance(other, TileFragment):
+			return self.width == other.width and self.height == other.height
+		return False
 
-	def __gt__(self, coll2):
+	def __hash__(self):
 		"""
-		Used for ordering TileFragmentCollections in order to use the most 
-		useful ones first
+		Cantor's pairing function
 		"""
-		if self.length() != coll2.length():
-			return self.length() > coll2.length()
-		if self.righttiles_length != 0 and self.bottomtiles_length != 0 and (
-				coll2.righttiles_length == 0 or 
-				coll2.bottomtiles_length == 0):
-			return True
-		if (self.righttiles_number ==0 or self.bottomtiles_number == 0) and (
-				coll2.bottomtiles_number != 0 and coll2.bottomtiles_number != 0):
-			return False
-		return self.count() > coll2.count()
+		return hash((self.width, self.height))
+
+	def __repr__(self):
+		return "{} x {} fragment".format(self.width, self.height)
+
+def total_length(tilefrag_list):
+	"""Given list of TileFragment objects, returns total length"""
+	return sum([frag.length() for frag in tilefrag_list])
+
+def get_key(tilefrag_list):
+	"""Returns a key for sorting lists of tile fragments"""
+	return (total_length(tilefrag_list), len(tilefrag_list))
+
+def subset(list1, list2):
+	"""
+	Returns True if list1 is a subset of list2 (counting duplicate elements
+	as different)
+	"""
+	return all(list1.count(item) <= list2.count(item) for item in list1)
 
 def get_tiles(width, height, side_length):
-	"""
-	Given the width and height of a rectangular floor, and the side length of 
-	the square tiles to be laid on the floor, calculates how many tiles will 
-	need to be bought to cover the floor.
-	"""
 
 	# First the easy bit: calculate how many tiles can be placed whole
-
 	whole_rows, rem_height = divmod(height, side_length)
 	whole_cols, rem_width = divmod(width, side_length)
-
+	whole_rows, whole_cols = int(whole_rows), int(whole_cols)
 	whole_tiles = whole_cols * whole_rows
 
-	# Now we specify exactly what tile fragments we need.
+	# If there's no space on the floor left over, we're done
 
-	tile_fragments = TileFragmentCollection(
-		rem_width, whole_rows, 
-		rem_height, whole_cols)
+	if rem_width == rem_height == 0:
+		return whole_tiles, []
 
-	# Add the corner piece - for our purposes, we can treat it as another side 
-	# piece (the small rectangle we're adding on here would only be wasted 
-	# anyway)
-	if tile_fragments.righttiles_length > tile_fragments.bottomtiles_length:
-		tile_fragments.bottomtiles_number += 1
-	else:
-		tile_fragments.righttiles_number += 1
+	# Now we create collections of the tile fragments left over
 
-	# Next we get a list of combinations of our tile fragments that fit inside a
-	# tile
+	frags_dict = {
+		# Fragments on the bottom side of the floor
+		TileFragment(side_length, rem_height): (
+			whole_cols if (rem_height != 0) else 0),
+		# Fragments on the right-hand side of the floor
+		TileFragment(rem_width, side_length): (
+			whole_rows if (rem_width != 0) else 0),
+		# Fragment in the bottom-right corner of the floor
+		TileFragment(rem_width, rem_height): (
+			1 if (rem_height != 0 != rem_width) else 0)
+	}
+
+	remaining_fragments = list(Counter(frags_dict).elements())
+
+	# Figuring out combinations
 
 	combinations = []
 
-	# width_multiple and height_multiple are the maximum number of width-type 
-	# and height-type tile fragments we can fit in a single tile, respectively.
-	width_multiple = side_length // tile_fragments.righttiles_length
-	height_multiple = side_length // tile_fragments.bottomtiles_length
-
+	width_multiple = (int(side_length // rem_width) 
+		if (rem_width != 0) 
+		else 0)
+	height_multiple = (int(side_length // rem_height) 
+		if (rem_height != 0) 
+		else 0)
 	for w in range(0, width_multiple + 1):
 		for h in range(0, height_multiple + 1):
-			frag_coll = TileFragmentCollection(rem_width, w, rem_height, h)
-			if 0 < frag_coll.length() <= side_length:
-				combinations.append(frag_coll)
+			for c in range(0, 2):
+				combination = list(Counter({
+					TileFragment(rem_width, side_length): w,
+					TileFragment(side_length, rem_height): h,
+					TileFragment(rem_width, rem_height): c
+				}).elements())
+				# If current combination fits inside a tile, add it to list
+				if 0 < total_length(combination) <= side_length:
+					combinations.append(combination)
 
-	# Sort the list, greatest first
-
-	combinations.sort(reverse=True)
-
-	# Now, we "fill in" the tile fragments in the combinations given above
+	# Rank combinations, according to the following order:
+	# If A has greater total length than B, then A > B
+	# Otherwise, if A has a greater number of fragments than B, then A > B
+	combinations.sort(key=get_key, reverse=True)
 
 	extra_tiles = []
 	current = 0 # index of combinations list
 
-	while tile_fragments.count() != 0:
-		# check if we can use currently selected combination
-		if (combinations[current].bottomtiles_number > tile_fragments.bottomtiles_number or 
-				combinations[current].righttiles_number > tile_fragments.righttiles_number):
+	# Now we remove fragments from remaining_fragments, according to the 
+	# combinations of fragments listed in combinations
+	while len(remaining_fragments) != 0:
+		# if currently selected combination is not a sub-multiset of remaining
+		# tile frags:
+		if not subset(combinations[current], remaining_fragments):
 			current += 1
 		else:
-			tile_fragments.righttiles_number -= combinations[current].righttiles_number
-			tile_fragments.bottomtiles_number -= combinations[current].bottomtiles_number
+			rem_frags_counter = (
+				Counter(remaining_fragments) - Counter(combinations[current]))
+			remaining_fragments = list(rem_frags_counter.elements())
 			extra_tiles.append(combinations[current])
-
 
 	# Finally, we count and calculate cost
 
 	total_tiles = whole_tiles + len(extra_tiles)
-	return total_tiles, whole_rows, whole_cols, extra_tiles, rem_width, rem_height
+	return total_tiles, extra_tiles
 
-def birds_eye(whole_rows, whole_cols, side_length, rem_width, rem_height, width, height):
+def cut_tiles(side_length, extra_tiles):
+	# First, we normalise the tile fragments so that the long side is
+	# always the width, and the side length is 100. We also put the
+	# corner fragment first.
+	normal_tiles = []
+	for tile in extra_tiles:
+		normal_tile = []
+		for frag in tile:
+			w, h = frag.width, frag.height
+			if w < h:
+				w, h = h, w
+			w = 100 * (w / side_length)
+			h = 100 * (h / side_length)
+			normal_tile.append(TileFragment(w, h))
+		normal_tile.sort(key=(lambda x: max(x.width, x.height)))
+		normal_tiles.append(normal_tile)
+	result = []
+	for tile in normal_tiles:
+		tile_data = []
+		y = 0
+		for frag in tile:
+			frag_data = {
+				'x':0, 'y':y, 'width':frag.width, 'height':frag.height}
+			tile_data.append(frag_data)
+			y += frag.height
+		result.append(tile_data)
+	return result
+
+def birds_eye(side_length, width, height):
 	"""
 	Returns the data required to draw the bird's eye view of the tiled floor,
 	in the following format:
@@ -149,9 +166,17 @@ def birds_eye(whole_rows, whole_cols, side_length, rem_width, rem_height, width,
 	]
 	"""
 
+	# First, we normalise so that the width is 700px
+	norm = lambda x: x * 700 / width
+	side_length, width, height = norm(side_length), norm(width), norm(height)
+
+	whole_rows, rem_height = divmod(height, side_length)
+	whole_cols, rem_width = divmod(width, side_length)
+	whole_rows, whole_cols = int(whole_rows), int(whole_cols)
+
 	result = []
 
-	# First, we add the list item for the whole tiles.
+	# We add the list item for the whole tiles.
 
 	whole_tiles_data = {
 		'width': side_length,
@@ -224,79 +249,4 @@ def birds_eye(whole_rows, whole_cols, side_length, rem_width, rem_height, width,
 
 		result.append(corner_fragment_data)
 
-	return result
-
-def cut_tiles(side_length, extra_tiles):
-	"""
-	Returns the data required to draw the tiles to be cut up, in the following
-	format:
-	[
-		{
-			'num': (number of such tiles),
-			'fragments': [
-				{
-					'x': (assumed to be 0 if omitted),
-					'y'
-					'width': (assumed to be side_length if omitted)
-					'height'
-					'class': (if 'discard' marked as for discarding)
-				},
-				...
-			]
-		},
-		...
-
-	]
-	"""
-	result = []
-
-	# Because we treated the corner piece as just any old piece in get_tiles,
-	# we now have to pick one piece with a shorter height and designate it
-	# the corner piece. 
-	# We choose the first piece we come across with the right height
-
-	if len(extra_tiles) != 0:
-		tile = extra_tiles[0]
-		small_height, width = (
-			min(tile.righttiles_length, tile.bottomtiles_length), 
-			max(tile.righttiles_length, tile.bottomtiles_length))
-	# We add a flag to ensure only one piece is turned into a corner piece
-	done_corner_piece = False
-
-	# extra_tiles_dict is a dictionary mapping TileFragmentCollection strings
-	# to the number of times that type of tile occurs in extra_tiles.
-
-	extra_tiles_dict = dict(collections.Counter(map(str, extra_tiles)))
-	for tile in extra_tiles_dict.keys():
-		tile_item = {
-			'num': extra_tiles_dict[tile],
-			'fragments': []
-		}
-		# tile_dict maps the .._length to the .._number attributes of the tile
-		tile_dict = ast.literal_eval(tile)
-		y = 0
-		for (height, count) in tile_dict.items():
-			for num in range(1, count+1):
-				tile_item['fragments'].append({
-					'y':y,
-					'height':height
-				})
-				if height == small_height and not done_corner_piece:
-					tile_item['fragments'][-1]['width'] = width
-					tile_item['fragments'].append({
-						'y':y,
-						'x':width,
-						'height':height,
-						'width': side_length - width,
-						'class':'discard'
-					})
-					done_corner_piece = True
-				y += height
-		if y < side_length:
-			tile_item['fragments'].append({
-				'y':y,
-				'height':side_length - y,
-				'class': 'discard'
-			})
-		result.append(tile_item)
 	return result

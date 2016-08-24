@@ -45,7 +45,7 @@
 <p>Total cost: &euro;{{ total_cost }}</p>
 <p>Number of tiles: {{ total_tiles }}</p>
 <p>Bird's eye view:</p>
-<svg width="{{ width }}" height="{{ height }}" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox = "0 0 {{ norm_width }} {{ norm_height }}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" style="padding-bottom: {{ scale_factor }}%" class="birds-eye">
 	{% for coll in birds_eye %}
 		{% for position in coll.positions %}
 			<rect x="{{ position.x }}" y="{{ position.y }}" width="{{ coll.width }}" height="{{ coll.height }}" class="{{ coll.class }}" />
@@ -55,14 +55,14 @@
 
 <p>Tiles to be cut up:</p>
 <ul>
-	{% for cut_tile in cut_tiles %}
-	<li> Cut {{ cut_tile.num }} tiles as follows:
-		<svg width="{{ side_length }}" height="{{ side_length }}" xmlns="http://www.w3.org/2000/svg">
-			{% for fragment in cut_tile.fragments %}
+	{% for tile in cut_tiles %}
+		<svg class="tile-new" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" style="padding-bottom: 100px">
+			<rect x="0" y="0" width="100" height="100" style="fill:red;" />
+			{% for fragment in tile %}
 				<rect 
-					x="{% if fragment.x %}{{ fragment.x }}{% else %}0{% endif %}" 
+					x="{{ fragment.x }}" 
 					y="{{ fragment.y }}" 
-					width="{% if fragment.width %}{{ fragment.width }}{% else %}{{ side_length }} {% endif %}" 
+					width="{{ fragment.width }}" 
 					height="{{ fragment.height }}" 
 					class="{{ fragment.class }}"/>
 			{% endfor %}

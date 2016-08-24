@@ -32,21 +32,24 @@ def write_prime_factors(x):
             result_list.append(to_append)
     return ' &times; '.join(result_list)
 
-# The first item in each tuple is the function to be called.
-# The second item is the maximum argument size, corresponding to the server
-# taking roughly 2 seconds to compute the function with that input. This
-# was calculated using find_timeout_level in logic/timing_functions.py
 
-func_dict = {
-	'pi': (calculate_pi, 878), 
-	'e': (calculate_e, 1937), 
-	'fib': ((lambda x: str(fib(x))), 1554857), 
-	'prime_factors': (write_prime_factors, 1000000), 
-	'to_binary': (decimal_to_binary, 10000000),
-	'primes_list': (first_k_primes, 1000)
-}
 
 def basic_projects(request, current_page):
+
+	# The first item in each tuple is the function to be called.
+	# The second item is the maximum argument size, corresponding to the server
+	# taking roughly 2 seconds to compute the function with that input. This
+	# was calculated using find_timeout_level in logic/timing_functions.py
+
+	func_dict = {
+		'pi': (calculate_pi, 878), 
+		'e': (calculate_e, 1937), 
+		'fib': ((lambda x: str(fib(x))), 1554857), 
+		'prime_factors': (write_prime_factors, 1000000), 
+		'to_binary': (decimal_to_binary, 10000000),
+		'primes_list': (first_k_primes, 1000)
+	}
+
 	context = {'current_page': current_page, 'func':'calculate_pi', 
 		'arg': '50'}
 	render_karan = lambda context: render(request, 
@@ -85,29 +88,36 @@ def basic_projects(request, current_page):
 	return render_karan(context)
 
 def tiling(request, current_page):
+	try:
+		width, height, side_length, cost_per_tile = (
+			request.GET['width'], 
+			request.GET['height'],
+			request.GET['side_length'], 
+			request.GET['cost_per_tile'])
+	except:
+		return render(
+			request, 'projects/tiling-applet.html')
+
 	width, height, side_length, cost_per_tile = (
-		int(request.GET['width']), int(request.GET['height']), 
-		int(request.GET['side_length']), int(request.GET['cost_per_tile']))
-	(total_tiles, whole_rows, whole_cols, 
-		extra_tiles, rem_width, rem_height) = get_tiles(
-		width, height, side_length)
+		float(width), float(height), float(side_length), float(cost_per_tile))
+	total_tiles, extra_tiles = get_tiles(width, height, side_length)
 	return render(
 		request,
-		'projects/tiling-applet.html', {
+		'projects/tiling-applet.html', 
+		{
 			'width': width,
 			'height': height,
 			'side_length': side_length,
 			'cost_per_tile': cost_per_tile,
-			'request':request,
-			'current_page':current_page,
-			'scale_factor':480/width,
-			'result':True,
+			'current_page': current_page,
+			'scale_factor': 100 * height / width,
+			'result': True,
 			'total_cost': total_tiles * cost_per_tile,
 			'total_tiles': total_tiles,
 			'birds_eye': birds_eye(
-				whole_rows, whole_cols, 
-				side_length, 
-				rem_width, rem_height, 
-				width, height),
-			'cut_tiles': cut_tiles(side_length, extra_tiles)
+				side_length, width, height),
+			'cut_tiles': cut_tiles(side_length, extra_tiles),
+			'norm_width': 700,
+			'norm_height': height * 700 / width,
+			'current_page': current_page
 		})
