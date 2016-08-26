@@ -158,6 +158,7 @@ input, select {
 main {
 	margin: 30px;
 	min-height:300px;
+	position: relative;
 }
 
 @media screen and (max-width:479px) {
@@ -172,9 +173,15 @@ main {
 
 footer {
     bottom: 0;
-    text-align: center;
-    border-top: 2px solid #555;
     height: 2em;
+    display: inline-block;
+    width: 100%;
+}
+
+footer div {
+	width: 90%;
+	margin: auto;
+	border-top: 2px solid #555;
 }
 
 footer p {
@@ -184,17 +191,11 @@ footer p {
 	margin: 5px;
 }
 @media screen and (min-width: 480px) {
-	footer {
+	footer div {
 		width: 100%;
-		float: left;
 	}
 	footer p {
 		margin: 0.5em 0 0.5em;
 	}
 }
-@media screen and (max-width: 479px) {
-	footer {
-		width: 90%;
-		margin: auto;
-	}
-}
+

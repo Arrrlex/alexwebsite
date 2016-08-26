@@ -57,3 +57,13 @@ svg.tile-new {
 		margin: 5px 0;
 	}
 }
+
+#overlay {
+	visibility: hidden;
+	background-color:green;
+	width: 200px;
+	height: 40px;
+	padding-top: 10px;
+	text-align: center;
+	color: white;
+}

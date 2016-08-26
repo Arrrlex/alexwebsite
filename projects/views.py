@@ -87,6 +87,11 @@ def basic_projects(request, current_page):
 	context.update({'arg': arg, 'result': result})
 	return render_karan(context)
 
+def dec_places(numstring):
+	if '.' not in numstring:
+		return 1
+	return len(numstring[numstring.index('.'):])
+
 def tiling(request, current_page):
 	try:
 		width, height, side_length, cost_per_tile = (
@@ -97,10 +102,11 @@ def tiling(request, current_page):
 	except:
 		return render(
 			request, 'projects/tiling-applet.html')
-
+	digs = max(dec_places(width), dec_places(height), dec_places(side_length))
 	width, height, side_length, cost_per_tile = (
 		float(width), float(height), float(side_length), float(cost_per_tile))
 	total_tiles, extra_tiles = get_tiles(width, height, side_length)
+
 	return render(
 		request,
 		'projects/tiling-applet.html', 
@@ -115,7 +121,7 @@ def tiling(request, current_page):
 			'total_cost': total_tiles * cost_per_tile,
 			'total_tiles': total_tiles,
 			'birds_eye': birds_eye(
-				side_length, width, height),
+				side_length, width, height, digs),
 			'cut_tiles': cut_tiles(side_length, extra_tiles),
 			'norm_width': 700,
 			'norm_height': height * 700 / width,

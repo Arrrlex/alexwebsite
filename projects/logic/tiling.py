@@ -1,4 +1,3 @@
-import ast
 from collections import Counter
 
 class TileFragment:
@@ -142,13 +141,15 @@ def cut_tiles(side_length, extra_tiles):
 		y = 0
 		for frag in tile:
 			frag_data = {
-				'x':0, 'y':y, 'width':frag.width, 'height':frag.height}
+				'x':0, 'y':y, 
+				'width':frag.width, 'height':frag.height, 
+				'class':'look'}
 			tile_data.append(frag_data)
 			y += frag.height
 		result.append(tile_data)
 	return result
 
-def birds_eye(side_length, width, height):
+def birds_eye(side_length, width, height, digs):
 	"""
 	Returns the data required to draw the bird's eye view of the tiled floor,
 	in the following format:
@@ -165,22 +166,33 @@ def birds_eye(side_length, width, height):
 		...
 	]
 	"""
-
-	# First, we normalise so that the width is 700px
-	norm = lambda x: x * 700 / width
-	side_length, width, height = norm(side_length), norm(width), norm(height)
-
 	whole_rows, rem_height = divmod(height, side_length)
 	whole_cols, rem_width = divmod(width, side_length)
+
+	# Check for floating point errors
+	if round(rem_height, digs) == round(side_length, digs):
+		rem_height = 0
+		whole_rows += 1
+	if round(rem_width, digs) == round(side_length, digs):
+		rem_width = 0
+		whole_cols += 1
 	whole_rows, whole_cols = int(whole_rows), int(whole_cols)
 
+	# Normalise so that width is 700px
+	norm = lambda x: x * 700 / width
+	norm_rem_height, norm_rem_width, norm_side_length = (
+		norm(rem_height),
+		norm(rem_width),
+		norm(side_length))
+	norm_width, norm_height = norm(width), norm(height)
+	
 	result = []
 
 	# We add the list item for the whole tiles.
 
 	whole_tiles_data = {
-		'width': side_length,
-		'height': side_length,
+		'width': norm_side_length,
+		'height': norm_side_length,
 		'class': 'whole',
 		'positions': []
 	}
@@ -188,62 +200,71 @@ def birds_eye(side_length, width, height):
 	for x in range(whole_cols):
 		for y in range(whole_rows):
 			whole_tiles_data['positions'].append({
-				'x': x * side_length,
-				'y': y * side_length
+				'x': x * norm_side_length,
+				'y': y * norm_side_length
 			})
 
 	result.append(whole_tiles_data)
 
 	# Now we add the fragments to the right.
 
-	whole_section_width = whole_cols * side_length
+	whole_sec_width = whole_cols * side_length
+	norm_whole_sec_width = whole_cols * norm_side_length
 
-	if whole_section_width < width:
+	if whole_sec_width < norm_width:
 		right_fragments_data = {
-			'width': width - whole_section_width,
-			'height': side_length,
-			'class': 'fragment',
+			'width': norm_width - norm_whole_sec_width,
+			'height': norm_side_length,
+			'data_width': width - whole_sec_width,
+			'data_height': side_length,
+			'class': 'fragment look',
 			'positions': []
 		}
 
 		for y in range(whole_rows):
 			right_fragments_data['positions'].append({
-				'x': whole_section_width,
-				'y': y * side_length
+				'x': norm_whole_sec_width,
+				'y': y * norm_side_length
 			})
 
 		result.append(right_fragments_data)
 
 	# Now the same but for the fragments on the bottom.
 
-	whole_section_height = whole_rows * side_length
+	whole_sec_height = whole_rows * side_length
+	norm_whole_sec_height = whole_rows * norm_side_length
 
-	if whole_section_height < height:
+	if norm_whole_sec_height < norm_height:
 		bottom_fragments_data = {
-			'width': side_length,
-			'height': height - whole_section_height,
-			'class': 'fragment',
+			'width': norm_side_length,
+			'height': norm_height - norm_whole_sec_height,
+			'data_width': side_length,
+			'data_height': height - whole_sec_height,
+			'class': 'fragment look',
 			'positions': []
 		}
 
 		for x in range(whole_cols):
 			bottom_fragments_data['positions'].append({
-				'x': x * side_length,
-				'y': whole_section_height
+				'x': x * norm_side_length,
+				'y': norm_whole_sec_height
 				})
 
 		result.append(bottom_fragments_data)
 
 	# Finally we add the corner piece
 
-	if whole_section_height < height and whole_section_width < width:
+	if (norm_whole_sec_height < norm_height and 
+		norm_whole_sec_width < norm_width):
 		corner_fragment_data = {
-			'width': width - whole_section_width,
-			'height': height - whole_section_height,
-			'class': 'fragment',
+			'width': norm_width - norm_whole_sec_width,
+			'height': norm_height - norm_whole_sec_height,
+			'data_width': width - whole_sec_width,
+			'data_height': height - whole_sec_height,
+			'class': 'fragment look',
 			'positions': [{
-				'x': whole_section_width,
-				'y': whole_section_height
+				'x': norm_whole_sec_width,
+				'y': norm_whole_sec_height
 			}]
 		}
 

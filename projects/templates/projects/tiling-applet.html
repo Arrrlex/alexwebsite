@@ -45,14 +45,15 @@
 <p>Total cost: &euro;{{ total_cost }}</p>
 <p>Number of tiles: {{ total_tiles }}</p>
 <p>Bird's eye view:</p>
-<svg viewBox = "0 0 {{ norm_width }} {{ norm_height }}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" style="padding-bottom: {{ scale_factor }}%" class="birds-eye">
+<svg viewBox = "0 0 {{ norm_width }} {{ norm_height }}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" style="padding-bottom: {{ scale_factor }}%" class="birds-eye" id="birds-eye">
 	{% for coll in birds_eye %}
 		{% for position in coll.positions %}
-			<rect x="{{ position.x }}" y="{{ position.y }}" width="{{ coll.width }}" height="{{ coll.height }}" class="{{ coll.class }}" />
+			<rect x="{{ position.x }}" y="{{ position.y }}" width="{{ coll.width }}" height="{{ coll.height }}" class="{{ coll.class }}" data-width="{{ coll.data_width }}" data-height="{{ coll.data_height }}"/>
 		{% endfor %}
 	{% endfor %}
 </svg>
-
+<div id="overlay"></div>
+{% if cut_tiles %}
 <p>Tiles to be cut up:</p>
 <ul>
 	{% for tile in cut_tiles %}
@@ -70,6 +71,7 @@
 	</li>
 	{% endfor %}
 </ul>
+{% endif %}
 
 
 {% endif %}
@@ -83,3 +85,5 @@
 {% endblock %}
 
 {% endblock main %}
+
+{% block script %}<script src="{% static 'projects/script.js' %}" ></script>{% endblock %}
