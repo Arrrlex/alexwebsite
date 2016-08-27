@@ -13,19 +13,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-	<script language="javascript" type="text/javascript">
-		function responsiveMenu() {
-			var x = document.getElementById('main-menu').getElementsByTagName('ul')[0];
-			var cl = "responsive-menu";
-			if (x.classList.contains(cl)){
-				x.classList.remove(cl);
-			}
-			else {
-				x.classList.add(cl);
-			}
 
-		}
-	</script>
 	<link rel="icon" type="image/x-icon" href="{% static 'alexwebsite/favicon.ico' %}" />
 </head>
 
@@ -33,7 +21,7 @@
 <h1><a href="{% url 'index' %}">Alex McKenzie</a></h1>
 
 <nav id="main-menu">
-<a class="main-menu-title" href="javascript:void(0);" onclick="responsiveMenu()"><img alt="Menu" src="{% static 'alexwebsite/navicon.svg' %}" /></a>
+<a class="main-menu-title" href="javascript:void(0);"><img alt="Menu" src="{% static 'alexwebsite/navicon.svg' %}" /></a>
 <ul>
 	<li><a href="{% url 'index' %}" {% if current_page == 'index' %}class="active"{% endif %}>Home</a></li>
 	<li><a href="{% url 'cv' %}" {% if current_page == 'cv' %}class="active"{% endif %}>CV</a></li>
@@ -51,6 +39,8 @@
 		<p>© Alex McKenzie 2016 · Built using <a href="https://www.djangoproject.com/">Django</a> · Source code <a href="https://github.com/Arrrlex/alexwebsite">here</a></p>
 	</div>
 </footer>
+
+<script src="{% static 'alexwebsite/script.js' %}"></script>
 
 {% block script %}{% endblock %}
 
