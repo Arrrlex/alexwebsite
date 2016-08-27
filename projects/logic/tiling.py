@@ -123,29 +123,29 @@ def cut_tiles(side_length, extra_tiles):
 	# First, we normalise the tile fragments so that the long side is
 	# always the width, and the side length is 100. We also put the
 	# corner fragment first.
-	normal_tiles = []
+	sorted_tiles = []
+	norm = lambda x: 100 * (x / side_length)
 	for tile in extra_tiles:
-		normal_tile = []
+		sorted_tile = []
 		for frag in tile:
 			w, h = frag.width, frag.height
 			if w < h:
 				w, h = h, w
-			w = 100 * (w / side_length)
-			h = 100 * (h / side_length)
-			normal_tile.append(TileFragment(w, h))
-		normal_tile.sort(key=(lambda x: max(x.width, x.height)))
-		normal_tiles.append(normal_tile)
+			sorted_tile.append(TileFragment(w, h))
+		sorted_tile.sort(key=(lambda x: x.width + x.height))
+		sorted_tiles.append(sorted_tile)
 	result = []
-	for tile in normal_tiles:
+	for tile in sorted_tiles:
 		tile_data = []
 		y = 0
 		for frag in tile:
 			frag_data = {
 				'x':0, 'y':y, 
-				'width':frag.width, 'height':frag.height, 
+				'width':norm(frag.width), 'height':norm(frag.height),
+				'data_width': frag.width, 'data_height': frag.height, 
 				'class':'look'}
 			tile_data.append(frag_data)
-			y += frag.height
+			y += norm(frag.height)
 		result.append(tile_data)
 	return result
 
@@ -179,20 +179,22 @@ def birds_eye(side_length, width, height, digs):
 	whole_rows, whole_cols = int(whole_rows), int(whole_cols)
 
 	# Normalise so that width is 700px
-	norm = lambda x: x * 700 / width
-	norm_rem_height, norm_rem_width, norm_side_length = (
-		norm(rem_height),
-		norm(rem_width),
-		norm(side_length))
-	norm_width, norm_height = norm(width), norm(height)
+	normalise = lambda x: x * 700 / width
+	norm = {
+		'rem_height':normalise(rem_height),
+		'rem_width': normalise(rem_width),
+		'side_length': normalise(side_length),
+		'width': normalise(width),
+		'height': normalise(height)
+	}
 	
 	result = []
 
 	# We add the list item for the whole tiles.
 
 	whole_tiles_data = {
-		'width': norm_side_length,
-		'height': norm_side_length,
+		'width': norm['side_length'],
+		'height': norm['side_length'],
 		'class': 'whole',
 		'positions': []
 	}
@@ -200,8 +202,8 @@ def birds_eye(side_length, width, height, digs):
 	for x in range(whole_cols):
 		for y in range(whole_rows):
 			whole_tiles_data['positions'].append({
-				'x': x * norm_side_length,
-				'y': y * norm_side_length
+				'x': x * norm['side_length'],
+				'y': y * norm['side_length']
 			})
 
 	result.append(whole_tiles_data)
@@ -209,12 +211,12 @@ def birds_eye(side_length, width, height, digs):
 	# Now we add the fragments to the right.
 
 	whole_sec_width = whole_cols * side_length
-	norm_whole_sec_width = whole_cols * norm_side_length
+	norm['whole_sec_width'] = normalise(whole_sec_width)
 
-	if whole_sec_width < norm_width:
+	if norm['whole_sec_width'] < norm['width']:
 		right_fragments_data = {
-			'width': norm_width - norm_whole_sec_width,
-			'height': norm_side_length,
+			'width': norm['width'] - norm['whole_sec_width'],
+			'height': norm['side_length'],
 			'data_width': width - whole_sec_width,
 			'data_height': side_length,
 			'class': 'fragment look',
@@ -223,8 +225,8 @@ def birds_eye(side_length, width, height, digs):
 
 		for y in range(whole_rows):
 			right_fragments_data['positions'].append({
-				'x': norm_whole_sec_width,
-				'y': y * norm_side_length
+				'x': norm['whole_sec_width'],
+				'y': y * norm['side_length']
 			})
 
 		result.append(right_fragments_data)
@@ -232,12 +234,12 @@ def birds_eye(side_length, width, height, digs):
 	# Now the same but for the fragments on the bottom.
 
 	whole_sec_height = whole_rows * side_length
-	norm_whole_sec_height = whole_rows * norm_side_length
+	norm['whole_sec_height'] = normalise(whole_sec_height)
 
-	if norm_whole_sec_height < norm_height:
+	if norm['whole_sec_height'] < norm['height']:
 		bottom_fragments_data = {
-			'width': norm_side_length,
-			'height': norm_height - norm_whole_sec_height,
+			'width': norm['side_length'],
+			'height': norm['height'] - norm['whole_sec_height'],
 			'data_width': side_length,
 			'data_height': height - whole_sec_height,
 			'class': 'fragment look',
@@ -246,25 +248,25 @@ def birds_eye(side_length, width, height, digs):
 
 		for x in range(whole_cols):
 			bottom_fragments_data['positions'].append({
-				'x': x * norm_side_length,
-				'y': norm_whole_sec_height
+				'x': x * norm['side_length'],
+				'y': norm['whole_sec_height']
 				})
 
 		result.append(bottom_fragments_data)
 
 	# Finally we add the corner piece
 
-	if (norm_whole_sec_height < norm_height and 
-		norm_whole_sec_width < norm_width):
+	if (norm['whole_sec_height'] < norm['height'] and 
+		norm['whole_sec_width'] < norm['width']):
 		corner_fragment_data = {
-			'width': norm_width - norm_whole_sec_width,
-			'height': norm_height - norm_whole_sec_height,
+			'width': norm['width'] - norm['whole_sec_width'],
+			'height': norm['height'] - norm['whole_sec_height'],
 			'data_width': width - whole_sec_width,
 			'data_height': height - whole_sec_height,
 			'class': 'fragment look',
 			'positions': [{
-				'x': norm_whole_sec_width,
-				'y': norm_whole_sec_height
+				'x': norm['whole_sec_width'],
+				'y': norm['whole_sec_height']
 			}]
 		}
 

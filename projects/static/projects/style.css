@@ -60,10 +60,10 @@ svg.tile-new {
 
 #overlay {
 	visibility: hidden;
-	background-color:green;
-	width: 200px;
-	height: 40px;
-	padding-top: 10px;
+	background-color:rgba(100, 100, 100, 0.5);
+	position: absolute;
+	pointer-events: none;
 	text-align: center;
 	color: white;
+	font-size:15px;
 }

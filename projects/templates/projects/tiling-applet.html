@@ -23,6 +23,7 @@
 	<input type="text" name="width" value="{{ width }}">
 	&times;
 	<input type="text" name="height" value="{{ height }}">
+	m<sup>2</sup>
 </p>
 <p>
 	Tile size:
@@ -44,7 +45,7 @@
 <h2>Results</h2>
 <p>Total cost: &euro;{{ total_cost }}</p>
 <p>Number of tiles: {{ total_tiles }}</p>
-<p>Bird's eye view:</p>
+<p>Bird's eye view: (hover over grey tile fragments for dimensions)</p>
 <svg viewBox = "0 0 {{ norm_width }} {{ norm_height }}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" style="padding-bottom: {{ scale_factor }}%" class="birds-eye" id="birds-eye">
 	{% for coll in birds_eye %}
 		{% for position in coll.positions %}
@@ -54,7 +55,8 @@
 </svg>
 <div id="overlay"></div>
 {% if cut_tiles %}
-<p>Tiles to be cut up:</p>
+<p>Tiles to be cut up: (red sections are discarded; hover over white fragments
+for dimensions)</p>
 <ul>
 	{% for tile in cut_tiles %}
 		<svg class="tile-new" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" style="padding-bottom: 100px">
@@ -65,7 +67,9 @@
 					y="{{ fragment.y }}" 
 					width="{{ fragment.width }}" 
 					height="{{ fragment.height }}" 
-					class="{{ fragment.class }}"/>
+					class="{{ fragment.class }}"
+					data-width="{{ fragment.data_width }}"
+					data-height="{{ fragment.data_height }}"/>
 			{% endfor %}
 		</svg>
 	</li>

@@ -93,37 +93,48 @@ def dec_places(numstring):
 	return len(numstring[numstring.index('.'):])
 
 def tiling(request, current_page):
+	context = {
+		'current_page': current_page, 'width': 130,
+		'height': 100, 'side_length': 40, 'cost_per_tile': 2}
+	render_tiling = lambda context: render(
+		request, 'projects/tiling-applet.html', context)
 	try:
 		width, height, side_length, cost_per_tile = (
 			request.GET['width'], 
 			request.GET['height'],
 			request.GET['side_length'], 
 			request.GET['cost_per_tile'])
+		context['width'] = width
+		context['height'] = height
+		context['side_length'] = side_length
+		context['cost_per_tile'] = cost_per_tile
 	except:
-		return render(
-			request, 'projects/tiling-applet.html')
+		return render_tiling(context)
 	digs = max(dec_places(width), dec_places(height), dec_places(side_length))
-	width, height, side_length, cost_per_tile = (
-		float(width), float(height), float(side_length), float(cost_per_tile))
-	total_tiles, extra_tiles = get_tiles(width, height, side_length)
-
-	return render(
-		request,
-		'projects/tiling-applet.html', 
-		{
-			'width': width,
-			'height': height,
-			'side_length': side_length,
-			'cost_per_tile': cost_per_tile,
-			'current_page': current_page,
-			'scale_factor': 100 * height / width,
-			'result': True,
-			'total_cost': total_tiles * cost_per_tile,
-			'total_tiles': total_tiles,
-			'birds_eye': birds_eye(
-				side_length, width, height, digs),
-			'cut_tiles': cut_tiles(side_length, extra_tiles),
-			'norm_width': 700,
-			'norm_height': height * 700 / width,
-			'current_page': current_page
+	try:
+		width, height, side_length, cost_per_tile = (
+			float(width), float(height), 
+			float(side_length), float(cost_per_tile))
+	except ValueError:
+		error_message = "Please enter numbers only."
+		context['error_message'] = error_message
+		return render_tiling(context)
+	try:
+		total_tiles, extra_tiles = get_tiles(width, height, side_length)
+		birds_eye_ = birds_eye(side_length, width, height, digs)
+		cut_tiles_ = cut_tiles(side_length, extra_tiles)
+	except Exception as err:
+		error_message = "Something went wrong while computing."
+		context['error_message'] = error_message
+		return render_tiling(context)
+	context.update({
+		'scale_factor': 100 * height / width,
+		'result': True,
+		'total_cost': total_tiles * cost_per_tile,
+		'total_tiles': total_tiles,
+		'birds_eye': birds_eye_,
+		'cut_tiles': cut_tiles_,
+		'norm_width': 700,
+		'norm_height': height * 700 / width,
 		})
+	return render_tiling(context)
