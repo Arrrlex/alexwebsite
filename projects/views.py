@@ -122,7 +122,7 @@ def tiling(request, current_page):
 	try:
 		total_tiles, extra_tiles = get_tiles(width, height, side_length)
 		birds_eye_ = birds_eye(side_length, width, height, digs)
-		cut_tiles_ = cut_tiles(side_length, extra_tiles)
+		cut_tiles_ = cut_tiles(side_length, extra_tiles, digs)
 	except Exception as err:
 		error_message = "Something went wrong while computing."
 		context['error_message'] = error_message

@@ -119,7 +119,7 @@ def get_tiles(width, height, side_length):
 	total_tiles = whole_tiles + len(extra_tiles)
 	return total_tiles, extra_tiles
 
-def cut_tiles(side_length, extra_tiles):
+def cut_tiles(side_length, extra_tiles, digs):
 	# First, we normalise the tile fragments so that the long side is
 	# always the width, and the side length is 100. We also put the
 	# corner fragment first.
@@ -128,7 +128,7 @@ def cut_tiles(side_length, extra_tiles):
 	for tile in extra_tiles:
 		sorted_tile = []
 		for frag in tile:
-			w, h = frag.width, frag.height
+			w, h = round(frag.width, digs), round(frag.height, digs)
 			if w < h:
 				w, h = h, w
 			sorted_tile.append(TileFragment(w, h))
@@ -217,7 +217,7 @@ def birds_eye(side_length, width, height, digs):
 		right_fragments_data = {
 			'width': norm['width'] - norm['whole_sec_width'],
 			'height': norm['side_length'],
-			'data_width': width - whole_sec_width,
+			'data_width': round(width - whole_sec_width, digs),
 			'data_height': side_length,
 			'class': 'fragment look',
 			'positions': []
@@ -241,7 +241,7 @@ def birds_eye(side_length, width, height, digs):
 			'width': norm['side_length'],
 			'height': norm['height'] - norm['whole_sec_height'],
 			'data_width': side_length,
-			'data_height': height - whole_sec_height,
+			'data_height': round(height - whole_sec_height, digs),
 			'class': 'fragment look',
 			'positions': []
 		}
@@ -261,8 +261,8 @@ def birds_eye(side_length, width, height, digs):
 		corner_fragment_data = {
 			'width': norm['width'] - norm['whole_sec_width'],
 			'height': norm['height'] - norm['whole_sec_height'],
-			'data_width': width - whole_sec_width,
-			'data_height': height - whole_sec_height,
+			'data_width': round(width - whole_sec_width, digs),
+			'data_height': round(height - whole_sec_height, digs),
 			'class': 'fragment look',
 			'positions': [{
 				'x': norm['whole_sec_width'],
