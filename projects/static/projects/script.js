@@ -17,3 +17,52 @@ $( document ).ready(function() {
 		overlay.css("visibility", "hidden");
 	});
 });
+$(document).ready(function() {
+	$("#tiling-form").validate({
+		rules: {
+			width: {
+				required: true,
+				number: true,
+				min: 0.1,
+				max: 100,
+				maxlength: 4
+			},
+			height: {
+				required: true,
+				number: true,
+				min: 0.1,
+				max: 100,
+				maxlength: 4
+			},
+			side_length: {
+				required: true,
+				number: true,
+				min: 0.1,
+				max: 100,
+				maxlength: 4
+			},
+			cost_per_tile: {
+				number: true,
+				min: 0,
+				max: 1000,
+				maxlength: 4
+			}
+		}
+	});
+	var func_dict = {
+		'pi': 878,
+		'e': 1937,
+		'fib': 1554857,
+		'prime_factors': 1000000,
+		'to_binary': 10000000,
+		'primes_list': 1000
+	}
+	$("#basic-form").validate({
+		rules: {
+			arg: {
+				min: 0,
+				max: func_dict[$("#func").val()]
+			}
+		}
+	})
+});

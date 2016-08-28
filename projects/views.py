@@ -32,8 +32,6 @@ def write_prime_factors(x):
             result_list.append(to_append)
     return ' &times; '.join(result_list)
 
-
-
 def basic_projects(request, current_page):
 
 	# The first item in each tuple is the function to be called.
@@ -116,16 +114,26 @@ def tiling(request, current_page):
 			float(width), float(height), 
 			float(side_length), float(cost_per_tile))
 	except ValueError:
-		error_message = "Please enter numbers only."
-		context['error_message'] = error_message
+		context['error_message'] = "Please enter numbers only."
+		return render_tiling(context)
+	if min(width, height, side_length) < 0.1:
+		context['error_message'] = "Please enter numbers bigger than 0.1."
+		return render_tiling(context)
+	if max(width, height, side_length) > 100:
+		context['error_message'] = "Please enter numbers smaller than 100"
+		return render_tiling(context)
+	if not 0 <= cost_per_tile <= 1000:
+		context['error_message'] = "Please enter a cost between 0 and 1000"
+		return render_tiling(context)
+	if not (0.1 * min(width, height) <= side_length <= 100 * max(width, height)):
+		context['error_message'] = "Please enter reasonable numbers"
 		return render_tiling(context)
 	try:
 		total_tiles, extra_tiles = get_tiles(width, height, side_length)
 		birds_eye_ = birds_eye(side_length, width, height, digs)
 		cut_tiles_ = cut_tiles(side_length, extra_tiles, digs)
 	except Exception as err:
-		error_message = "Something went wrong while computing."
-		context['error_message'] = error_message
+		context['error_message'] = "Something went wrong while computing."
 		return render_tiling(context)
 	context.update({
 		'scale_factor': 100 * height / width,

@@ -16,23 +16,23 @@
 	right size pieces to fill the gaps.
 </p>
 
-<form class="applet-form" action="{% url 'projects:tiling' %}" method="post">
+<form class="applet-form" id="tiling-form" action="{% url 'projects:tiling' %}" onsubmit="return validateTilingForm()" method="post">
 {% csrf_token %}
-<p>
-	Floor dimensions: 
-	<input type="text" name="width" value="{{ width }}">
-	&times;
-	<input type="text" name="height" value="{{ height }}">
+<fieldset>
+	<legend>Floor dimensions:</legend> 
+	<input type="number" name="width" id="width" value="{{ width }}">
+	<legend>&times;</legend>
+	<input type="number" name="height" id="height" value="{{ height }}">
 	m<sup>2</sup>
+</fieldset>
+<p>
+	<label for="side_length">Tile size:</label>
+	<input type="number" name="side_length" id="side_length" value="{{ side_length }}">
+	m<sup>2</sup></legend>
 </p>
 <p>
-	Tile size:
-	<input type="text" name="side_length" value="{{ side_length }}">
-	m<sup>2</sup>
-</p>
-<p>
-	Cost per tile: &euro;
-	<input type="text" name="cost_per_tile" value="{{ cost_per_tile }}">
+	<label for="cost_per_tile">Cost per tile:</label> &euro;
+	<input type="number" name="cost_per_tile" id="cost_per_tile" value="{{ cost_per_tile }}">
 </p>
 
 <input type="submit" value="Calculate" />

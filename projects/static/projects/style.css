@@ -11,9 +11,28 @@
 	text-align: center;
 	width: 45px;
 }
+.applet-form input[type="number"] {
+	padding: 0 5px;
+	text-align: center;
+	width: 45px;
+}
 
 .applet-form select {
 	background-color: white;
+}
+
+.applet-form legend {
+	display: inline;
+}
+
+.applet-form fieldset {
+	border: none;
+	padding: 0;
+	margin: 20px 0;
+}
+
+.error {
+	color: red;
 }
 
 svg {
