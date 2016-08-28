@@ -16,8 +16,8 @@
 	right size pieces to fill the gaps.
 </p>
 
-<form class="applet-form" action="{% url 'projects:tiling' %}" method="get">
-
+<form class="applet-form" action="{% url 'projects:tiling' %}" method="post">
+{% csrf_token %}
 <p>
 	Floor dimensions: 
 	<input type="text" name="width" value="{{ width }}">

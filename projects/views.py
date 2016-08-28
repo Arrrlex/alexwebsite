@@ -100,10 +100,10 @@ def tiling(request, current_page):
 		request, 'projects/tiling-applet.html', context)
 	try:
 		width, height, side_length, cost_per_tile = (
-			request.GET['width'], 
-			request.GET['height'],
-			request.GET['side_length'], 
-			request.GET['cost_per_tile'])
+			request.POST['width'], 
+			request.POST['height'],
+			request.POST['side_length'], 
+			request.POST['cost_per_tile'])
 		context['width'] = width
 		context['height'] = height
 		context['side_length'] = side_length
