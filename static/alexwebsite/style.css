@@ -116,13 +116,6 @@ input, select {
 		border-color: #555;
 		border-style: solid;
 	}
-
-	img.main-menu-title {
-		display: block;
-		border-width: 2px 0;
-		border-color: #555;
-		border-style: solid;
-	}
 }
 #main-menu ul.responsive-menu {
 	display: block;
@@ -131,12 +124,6 @@ input, select {
 }
 
 .main-menu-title img {
-	width: 35px;
-	margin-top: 10px;
-	margin-bottom: 4px;
-}
-
-img.main-menu-title {
 	width: 35px;
 	margin-top: 10px;
 	margin-bottom: 4px;
