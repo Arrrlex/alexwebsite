@@ -94,8 +94,8 @@ def dec_places(numstring):
 
 def tiling(request, current_page):
 	context = {
-		'current_page': current_page, 'width': 130,
-		'height': 100, 'side_length': 40, 'cost_per_tile': 2}
+		'current_page': current_page, 'width': 5.5,
+		'height': 3.7, 'side_length': 0.4, 'cost_per_tile': 2}
 	render_tiling = lambda context: render(
 		request, 'projects/tiling-applet.html', context)
 	try:
