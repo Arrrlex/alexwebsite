@@ -16,7 +16,7 @@
 	right size pieces to fill the gaps.
 </p>
 
-<form class="applet-form" id="tiling-form" action="{% url 'projects:tiling' %}" onsubmit="return validateTilingForm()" method="post">
+<form class="applet-form" id="tiling-form" action="{% url 'projects:tiling' %}" method="post">
 {% csrf_token %}
 <fieldset>
 	<legend>Floor dimensions:</legend> 

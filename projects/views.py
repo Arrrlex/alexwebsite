@@ -125,7 +125,8 @@ def tiling(request, current_page):
 	if not 0 <= cost_per_tile <= 1000:
 		context['error_message'] = "Please enter a cost between 0 and 1000"
 		return render_tiling(context)
-	if not (0.1 * min(width, height) <= side_length <= 100 * max(width, height)):
+	if ((10 * min(width, height) < side_length) 
+		or (max(width, height) > 100 * side_length)):
 		context['error_message'] = "Please enter reasonable numbers"
 		return render_tiling(context)
 	try:
