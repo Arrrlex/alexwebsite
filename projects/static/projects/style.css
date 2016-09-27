@@ -17,6 +17,12 @@
 	width: 45px;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 .applet-form select {
 	background-color: white;
 }

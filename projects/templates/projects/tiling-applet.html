@@ -55,7 +55,7 @@
 </svg>
 <div id="overlay"></div>
 {% if cut_tiles %}
-<p>Tiles to be cut up: (red sections are discarded; hover over white fragments
+<p>{{ cut_tiles|length }} tiles to be cut up: (red sections are discarded; hover over white fragments
 for dimensions)</p>
 <ul>
 	{% for tile in cut_tiles %}
