@@ -17,8 +17,4 @@ urlpatterns = [
 		TemplateView.as_view(template_name='pages/contact.html'),
 		kwargs={'current_page': 'contact'},
 		name='contact'),
-	url(r'^portfolio$',
-		TemplateView.as_view(template_name='pages/portfolio.html'),
-		kwargs={'current_page': 'portfolio'},
-		name='portfolio')
 ]

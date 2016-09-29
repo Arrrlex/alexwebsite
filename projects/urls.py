@@ -17,4 +17,8 @@ urlpatterns = [
 		views.tiling,
 		name='tiling',
 		kwargs={'current_page':'portfolio'}),
+	url(r'^$',
+		TemplateView.as_view(template_name='projects/portfolio.html'),
+		kwargs={'current_page': 'portfolio'},
+		name='portfolio')
 ]
